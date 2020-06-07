@@ -96,7 +96,6 @@ class RTCClient(
 
         createOffer(object : SdpObserver by sdpObserver {
             override fun onCreateSuccess(desc: SessionDescription?) {
-
                 setLocalDescription(object : SdpObserver {
                     override fun onSetFailure(p0: String?) {
                     }
@@ -104,10 +103,10 @@ class RTCClient(
                     override fun onSetSuccess() {
                     }
 
-                    override fun onCreateSuccess(p0: SessionDescription?) {
+                    override fun onCreateSuccess(sessionDescription: SessionDescription?) {
                     }
 
-                    override fun onCreateFailure(p0: String?) {
+                    override fun onCreateFailure(string: String?) {
                     }
                 }, desc)
                 sdpObserver.onCreateSuccess(desc)
@@ -129,11 +128,12 @@ class RTCClient(
                     override fun onSetSuccess() {
                     }
 
-                    override fun onCreateSuccess(p0: SessionDescription?) {
+                    override fun onCreateSuccess(sessionDescription: SessionDescription?) {
                     }
 
-                    override fun onCreateFailure(p0: String?) {
+                    override fun onCreateFailure(string: String?) {
                     }
+
                 }, p0)
                 sdpObserver.onCreateSuccess(p0)
             }

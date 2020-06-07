@@ -4,6 +4,10 @@ import android.content.Context
 import android.view.View
 import com.groundzero.webrtc.MainActivityListener
 import com.groundzero.webrtc.RTCWrapperListener
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.Dispatchers.Main
+import kotlinx.coroutines.launch
 import org.webrtc.IceCandidate
 import org.webrtc.MediaStream
 import org.webrtc.SessionDescription
@@ -23,9 +27,14 @@ class RTCWrapper(
             wrapperListener.startVideoCapture { it }
             wrapperListener.onCallClick { it.call(sdpObserver) }
         }
-        signallingClient =
-            SignallingClient(signalingClientListener(), listener).also { it.openSocket() }
+        signallingClient = SignallingClient(signalingClientListener(), listener).also { it.openSocket() }
     }
+
+    fun retrySocketOpening() {
+        wrapperListener.removeSurfaceView()
+        createRTC()
+    }
+
 
     private fun peerConnectionObservable() = object : PeerConnectionObserver() {
 
@@ -41,16 +50,17 @@ class RTCWrapper(
         }
     }
 
-    private fun signalingClientListener() = object :
-        SignallingClientListener {
-
+    private fun signalingClientListener() = object : SignallingClientListener {
         override fun onConnectionEstablished() {
+            CoroutineScope(Main).launch {
+                wrapperListener.connectToServerButtonVisibility(View.GONE)
+                wrapperListener.callServerButtonVisibility(View.VISIBLE)
+            }
         }
 
         override fun onOfferReceived(description: SessionDescription) {
             rtcClient.onRemoteSessionReceived(description)
             rtcClient.answer(sdpObserver)
-            wrapperListener.progressBarVisibility(View.GONE)
         }
 
         override fun onAnswerReceived(description: SessionDescription) {
@@ -67,6 +77,10 @@ class RTCWrapper(
         override fun onCreateSuccess(p0: SessionDescription?) {
             super.onCreateSuccess(p0)
             signallingClient.send(p0)
+            CoroutineScope(Main).launch {
+                wrapperListener.callServerButtonVisibility(View.GONE)
+                wrapperListener.progressBarVisibility(View.GONE)
+            }
         }
     }
 

@@ -34,24 +34,23 @@
         app:layout_constraintStart_toStartOf="@id/remote_view"
         app:layout_constraintTop_toTopOf="@id/remote_view" />
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
+    <Button
+        android:visibility="gone"
         android:id="@+id/call_button"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="20dp"
-        android:clickable="false"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@android:drawable/ic_menu_call" />
+        android:text="@string/make_call"
+        app:layout_constraintBottom_toTopOf="@id/connect_to_server"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/send_message"
-        android:layout_width="wrap_content"
+    <Button
+        android:id="@+id/connect_to_server"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="20dp"
-        android:clickable="false"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@android:drawable/ic_menu_call" />
+        android:text="@string/connect_to_server_button"
+        app:layout_constraintBottom_toBottomOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

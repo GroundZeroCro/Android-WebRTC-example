@@ -23,7 +23,9 @@ class MainActivity : AppCompatActivity(), MainActivityListener, RTCWrapperListen
         setContentView(R.layout.activity_main)
         rtcWrapper = RTCWrapper(this, this, this)
         checkCameraPermission()
-        send_message.setOnClickListener { showMessage(R.string.test_button) }
+        connect_to_server.setOnClickListener {
+            rtcWrapper.retrySocketOpening()
+        }
     }
 
     private fun checkCameraPermission() {
@@ -96,8 +98,23 @@ class MainActivity : AppCompatActivity(), MainActivityListener, RTCWrapperListen
         remote_view.init(eglBaseContext.invoke(), null)
     }
 
+    override fun removeSurfaceView() {
+        local_view.clearImage()
+        local_view.release()
+        remote_view.clearImage()
+        remote_view.release()
+    }
+
     override fun startVideoCapture(client: () -> RTCClient) =
         client.invoke().startLocalVideoCapture(local_view)
+
+    override fun connectToServerButtonVisibility(visibility: Int) {
+        connect_to_server.visibility = visibility
+    }
+
+    override fun callServerButtonVisibility(visibility: Int) {
+        call_button.visibility = visibility
+    }
 
     override fun onAddStream(add: () -> MediaStream?) {
         add.invoke()?.videoTracks?.get(0)?.addSink(remote_view)

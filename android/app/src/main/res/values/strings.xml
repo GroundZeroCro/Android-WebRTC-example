@@ -4,4 +4,6 @@
   <string name="test_button">Testing button, use right side button</string>
   <string name="connection_established">Connection Established</string>
   <string name="deserialization_error">Unable to deserialize data</string>
+    <string name="connect_to_server_button">Connect to server</string>
+  <string name="make_call">Make a call</string>
 </resources>
