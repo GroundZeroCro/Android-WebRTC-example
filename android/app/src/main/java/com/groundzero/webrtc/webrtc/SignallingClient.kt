@@ -71,13 +71,13 @@ class SignallingClient(
         sendChannel.send(gson.toJson(dataObject))
     }
 
-    fun destroy() {
+    fun onDestroy() {
         socket.close(CLOSING_STATUS, null)
     }
 
     companion object {
         private const val SERVER_URL = "ws://192.168.0.16"
         private const val PORT = "3000"
-        private const val CLOSING_STATUS = 1
+        private const val CLOSING_STATUS = 1000
     }
 }

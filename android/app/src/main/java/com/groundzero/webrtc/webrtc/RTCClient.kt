@@ -70,11 +70,7 @@ class RTCClient(
             } ?: throw IllegalStateException()
         }
 
-    fun initSurfaceView(view: SurfaceViewRenderer) = view.run {
-        setMirror(true)
-        setEnableHardwareScaler(true)
-        init(rootEglBase.eglBaseContext, null)
-    }
+    fun getEglContext(): EglBase.Context = rootEglBase.eglBaseContext
 
     fun startLocalVideoCapture(localVideoOutput: SurfaceViewRenderer) {
         val surfaceTextureHelper =
