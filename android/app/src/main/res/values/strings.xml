@@ -1,0 +1,7 @@
+<resources>
+  <string name="app_name">webrtc</string>
+    <string name="camera_denied">Camera Permission Denied</string>
+  <string name="test_button">Testing button, use right side button</string>
+  <string name="connection_established">Connection Established</string>
+  <string name="deserialization_error">Unable to deserialize data</string>
+</resources>
